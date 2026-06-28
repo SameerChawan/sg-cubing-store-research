@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SG Cubing Co. — Strategic Investment Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--card:#12121a;--card2:#1a1a2e;--border:#232340;
+  --accent:#6c5ce7;--accent2:#a29bfe;--accent3:#00cec9;
+  --green:#00b894;--red:#ff6b6b;--yellow:#ffeaa7;--orange:#fdcb6e;
+  --text:#e8e8f0;--text2:#a0a0c0;--text3:#606080;
+  --gradient1:linear-gradient(135deg,#6c5ce7,#a29bfe);
+  --gradient2:linear-gradient(135deg,#00cec9,#55efc4);
+  --gradient3:linear-gradient(135deg,#fd79a8,#e84393);
+  --gradient4:linear-gradient(135deg,#fdcb6e,#f39c12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+.container{max-width:1400px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:20px;font-weight:800;background:var(--gradient1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:.2s;letter-spacing:.5px;text-transform:uppercase}
+.nav-links a:hover{color:var(--accent2)}
+.nav-badge{background:var(--gradient2);color:#0a0a0f;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px}
+
+/* HERO */
+.hero{padding:140px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(108,92,231,.12) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(0,206,201,.08) 0%,transparent 50%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.hero-content{position:relative;z-index:2}
+.hero-eyebrow{font-size:13px;font-weight:600;color:var(--accent2);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(36px,5vw,64px);font-weight:900;line-height:1.1;margin-bottom:20px}
+.hero h1 span{background:var(--gradient1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:18px;color:var(--text2);max-width:640px;margin-bottom:32px;font-weight:300}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap}
+.hero-stat{border-left:3px solid var(--accent);padding-left:16px}
+.hero-stat .val{font-size:32px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.hero-stat .lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+
+/* SECTION */
+section{padding:80px 0}
+.section-label{font-size:12px;font-weight:600;color:var(--accent2);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.section-title{font-size:clamp(28px,3.5vw,42px);font-weight:800;margin-bottom:12px}
+.section-desc{font-size:16px;color:var(--text2);max-width:600px;margin-bottom:48px}
+.divider{width:60px;height:3px;background:var(--gradient1);border-radius:2px;margin-bottom:48px}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:48px}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:.3s}
+.kpi-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 40px rgba(108,92,231,.15)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.g1::before{background:var(--gradient1)}
+.kpi-card.g2::before{background:var(--gradient2)}
+.kpi-card.g3::before{background:var(--gradient3)}
+.kpi-card.g4::before{background:var(--gradient4)}
+.kpi-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.kpi-card.g1 .kpi-icon{background:rgba(108,92,231,.15)}
+.kpi-card.g2 .kpi-icon{background:rgba(0,206,201,.15)}
+.kpi-card.g3 .kpi-icon{background:rgba(232,67,147,.15)}
+.kpi-card.g4 .kpi-icon{background:rgba(243,156,18,.15)}
+.kpi-val{font-size:36px;font-weight:800;font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+.kpi-card.g1 .kpi-val{color:var(--accent2)}
+.kpi-card.g2 .kpi-val{color:var(--accent3)}
+.kpi-card.g3 .kpi-val{color:#fd79a8}
+.kpi-card.g4 .kpi-val{color:var(--yellow)}
+.kpi-lbl{font-size:14px;color:var(--text2)}
+.kpi-delta{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 8px;border-radius:20px;margin-top:8px}
+.kpi-delta.up{background:rgba(0,184,148,.15);color:var(--green)}
+.kpi-delta.down{background:rgba(255,107,107,.15);color:var(--red)}
+
+/* CHARTS */
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(460px,1fr));gap:24px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px}
+.chart-card h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.chart-card .chart-sub{font-size:13px;color:var(--text3);margin-bottom:20px}
+.chart-wrap{position:relative;height:300px}
+.chart-wrap canvas{max-height:300px}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;font-size:14px}
+.data-table thead{position:sticky;top:70px;z-index:10}
+.data-table th{text-align:left;padding:12px 16px;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);border-bottom:2px solid var(--border);background:var(--bg)}
+.data-table td{padding:14px 16px;border-bottom:1px solid var(--border)}
+.data-table tr:hover td{background:rgba(108,92,231,.05)}
+.data-table .mono{font-family:'JetBrains Mono',monospace;font-size:13px}
+.data-table .highlight{color:var(--green);font-weight:600}
+.data-table .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:rgba(0,184,148,.15);color:var(--green)}
+.badge-yellow{background:rgba(255,234,167,.15);color:var(--yellow)}
+.badge-red{background:rgba(255,107,107,.15);color:var(--red)}
+.badge-blue{background:rgba(108,92,231,.15);color:var(--accent2)}
+
+/* SUPPLIER SECTION */
+.supplier-card{background:linear-gradient(135deg,rgba(0,206,201,.08),rgba(108,92,231,.08));border:1px solid var(--accent3);border-radius:16px;padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
+.supplier-card::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(0,206,201,.15),transparent);border-radius:50%}
+.supplier-card h3{font-size:22px;font-weight:800;margin-bottom:8px;color:var(--accent3)}
+.supplier-card p{color:var(--text2);max-width:700px}
+
+/* COMPARE TABLE */
+.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1px;background:var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px}
+.compare-row.header{background:var(--accent);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.compare-cell{background:var(--card);padding:14px 18px;font-size:14px}
+.compare-row.header .compare-cell{background:var(--card2);color:var(--accent2)}
+.compare-cell.best{background:rgba(0,184,148,.08);border-left:3px solid var(--green)}
+.compare-cell .price{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px}
+.compare-cell .savings{font-size:11px;color:var(--green);font-weight:600;margin-top:4px}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:32px}
+.timeline-item::before{content:'';position:absolute;left:-29px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.timeline-item.active::before{background:var(--green);box-shadow:0 0 12px rgba(0,184,148,.5)}
+.timeline-item .tl-phase{font-size:12px;color:var(--accent2);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.timeline-item .tl-title{font-size:18px;font-weight:700;margin-bottom:4px}
+.timeline-item .tl-desc{font-size:14px;color:var(--text2)}
+.timeline-item .tl-target{display:inline-block;margin-top:8px;font-size:12px;padding:4px 12px;border-radius:20px;background:rgba(108,92,231,.15);color:var(--accent2);font-weight:600}
+
+/* SWOT */
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:48px}
+.swot-card{border-radius:16px;padding:28px;border:1px solid var(--border)}
+.swot-card h4{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.swot-card ul{list-style:none;padding:0}
+.swot-card li{padding:8px 0;font-size:14px;color:var(--text2);border-bottom:1px solid rgba(255,255,255,.03);display:flex;align-items:flex-start;gap:8px}
+.swot-card li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0}
+.swot-s{background:rgba(0,184,148,.05)}
+.swot-s h4{color:var(--green)}
+.swot-w{background:rgba(255,234,167,.05)}
+.swot-w h4{color:var(--yellow)}
+.swot-o{background:rgba(108,92,231,.05)}
+.swot-o h4{color:var(--accent2)}
+.swot-t{background:rgba(255,107,107,.05)}
+.swot-t h4{color:var(--red)}
+
+/* CTA */
+.cta-section{text-align:center;padding:100px 0}
+.cta-section h2{font-size:clamp(32px,4vw,48px);font-weight:900;margin-bottom:16px}
+.cta-section p{color:var(--text2);font-size:18px;max-width:500px;margin:0 auto 32px}
+.cta-btn{display:inline-block;padding:16px 40px;background:var(--gradient1);color:#fff;font-size:16px;font-weight:700;border-radius:12px;text-decoration:none;transition:.3s;box-shadow:0 4px 24px rgba(108,92,231,.4)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(108,92,231,.6)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text3);font-size:13px}
+
+/* SCROLL ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(30px);transition:all .6s cubic-bezier(.22,1,.36,1)}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero-stats{flex-direction:column;gap:20px}
+  .chart-grid{grid-template-columns:1fr}
+  .swot-grid{grid-template-columns:1fr}
+  .compare-row{grid-template-columns:1fr}
+  .compare-row.header{display:none}
+  .compare-cell::before{content:attr(data-label);display:block;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;margin-bottom:4px}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+}
+
+/* COUNTER ANIMATIONS */
+.counter{display:inline-block}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* PROGRESS BAR */
+.progress-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin:8px 0}
+.progress-bar .fill{height:100%;border-radius:4px;transition:width 1.5s cubic-bezier(.22,1,.36,1)}
+
+/* TAG */
+.tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;margin:2px}
+.tag-accent{background:rgba(108,92,231,.15);color:var(--accent2)}
+.tag-green{background:rgba(0,184,148,.15);color:var(--green)}
+.tag-orange{background:rgba(253,203,110,.15);color:var(--orange)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="nav-logo">SG CUBING CO.</div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#market">Market</a></li>
+      <li><a href="#competition">Competition</a></li>
+      <li><a href="#local-competitors">Local SG</a></li>
+      <li><a href="#supply">Supply Chain</a></li>
+      <li><a href="#regulatory">Regulatory</a></li>
+      <li><a href="#financials">Financials</a></li>
+      <li><a href="#marketing">GTM Strategy</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+    </ul>
+    <span class="nav-badge">JUNE 2026</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content fade-in">
+      <div class="hero-eyebrow">Strategic Market Entry Assessment</div>
+      <h1>Building <span>Southeast Asia's</span><br>Definitive Cube Store</h1>
+      <p class="hero-sub">A data-driven investment case for launching an online speedcube retailer in Singapore — the gateway to 680M+ consumers in the world's fastest-growing e-commerce region.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="val" style="color:var(--accent2)">$400-500M</div>
+          <div class="lbl">Global Speedcube Market</div>
+        </div>
+        <div class="hero-stat">
+          <div class="val" style="color:var(--accent3)">680M+</div>
+          <div class="lbl">SEA Population</div>
+        </div>
+        <div class="hero-stat">
+          <div class="val" style="color:var(--yellow)">60-80%</div>
+          <div class="lbl">Gross Margins</div>
+        </div>
+        <div class="hero-stat">
+          <div class="val" style="color:#fd79a8">0</div>
+          <div class="lbl">Dedicated SG/SEA Cube Retailers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY METRICS -->
+<section id="overview">
+  <div class="container">
+    <div class="section-label fade-in">Executive Summary</div>
+    <div class="section-title fade-in">The Opportunity at a Glance</div>
+    <div class="divider fade-in"></div>
+    <div class="kpi-grid">
+      <div class="kpi-card g1 fade-in">
+        <div class="kpi-icon">🎯</div>
+        <div class="kpi-val counter" data-target="5000" data-prefix="$" data-suffix="">5000</div>
+        <div class="kpi-lbl">SGD Minimum Viable Investment</div>
+        <div class="kpi-delta up">Lean startup model</div>
+      </div>
+      <div class="kpi-card g2 fade-in">
+        <div class="kpi-icon">📈</div>
+        <div class="kpi-val counter" data-target="43" data-prefix="" data-suffix="%">43</div>
+        <div class="kpi-lbl">Net Margin per Order</div>
+        <div class="kpi-delta up">After all operating costs</div>
+      </div>
+      <div class="kpi-card g3 fade-in">
+        <div class="kpi-icon">⏱️</div>
+        <div class="kpi-val counter" data-target="8" data-prefix="" data-suffix=" mo">8</div>
+        <div class="kpi-lbl">Break-even Timeline</div>
+        <div class="kpi-delta up">At 24 orders/month</div>
+      </div>
+      <div class="kpi-card g4 fade-in">
+        <div class="kpi-icon">🌏</div>
+        <div class="kpi-val counter" data-target="201600" data-prefix="$" data-suffix="">201600</div>
+        <div class="kpi-lbl">Projected Year 3 Revenue (SGD)</div>
+        <div class="kpi-delta up">With SEA expansion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET SIZING -->
+<section id="market">
+  <div class="container">
+    <div class="section-label fade-in">Market Analysis</div>
+    <div class="section-title fade-in">A Growing Global Sport, An Untapped Region</div>
+    <div class="divider fade-in"></div>
+    <div class="chart-grid">
+      <div class="chart-card fade-in">
+        <h3>WCA Competition Growth</h3>
+        <div class="chart-sub">Annual sanctioned competitions worldwide (2004–2025)</div>
+        <div class="chart-wrap"><canvas id="wcaChart"></canvas></div>
+      </div>
+      <div class="chart-card fade-in">
+        <h3>Singapore Addressable Market</h3>
+        <div class="chart-sub">TAM → SAM → SOM funnel (SGD/year)</div>
+        <div class="chart-wrap"><canvas id="tamChart"></canvas></div>
+      </div>
+      <div class="chart-card fade-in">
+        <h3>SEA E-Commerce Market Size</h3>
+        <div class="chart-sub">Total e-commerce by country (USD Billions, 2025)</div>
+        <div class="chart-wrap"><canvas id="seaChart"></canvas></div>
+      </div>
+      <div class="chart-card fade-in">
+        <h3>Singapore Demographics</h3>
+        <div class="chart-sub">Age distribution — target cubing demographic</div>
+        <div class="chart-wrap"><canvas id="demoChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITION -->
+<section id="competition">
+  <div class="container">
+    <div class="section-label fade-in">Competitive Landscape</div>
+    <div class="section-title fade-in">No One Owns This Market</div>
+    <div class="divider fade-in"></div>
+    <p class="section-desc fade-in">Singapore has no credible dedicated cube retailer. Customers either pay premium shipping from US stores or buy inconsistent quality from marketplace sellers.</p>
+
+    <div class="chart-card fade-in" style="margin-bottom:32px">
+      <h3>Competitive Positioning Matrix</h3>
+      <div class="chart-sub">Price vs. Expertise/Curation — Your store occupies the white space</div>
+      <div class="chart-wrap"><canvas id="positionChart"></canvas></div>
+    </div>
+
+    <div class="chart-card fade-in" style="overflow-x:auto">
+      <h3>Head-to-Head Comparison</h3>
+      <div class="chart-sub">Key metrics across competitors serving Singapore</div>
+      <table class="data-table" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>Factor</th>
+            <th>SpeedCubeShop (US)</th>
+            <th>TheCubicle (US)</th>
+            <th>Shopee Sellers</th>
+            <th style="color:var(--green)">Your Store ✦</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Shipping to SG</td>
+            <td>7-14 days, $15-25 USD</td>
+            <td>7-14 days, $15-25 USD</td>
+            <td class="highlight">1-3 days</td>
+            <td class="highlight">1-3 days</td>
+          </tr>
+          <tr>
+            <td>Pricing (SGD)</td>
+            <td>Premium (USD + FX)</td>
+            <td>Premium (USD + FX)</td>
+            <td>Low (but inconsistent)</td>
+            <td class="highlight">Competitive + transparent</td>
+          </tr>
+          <tr>
+            <td>Product Curation</td>
+            <td>Expert (15+ years)</td>
+            <td>Expert (14+ years)</td>
+            <td><span class="badge badge-red">None</span></td>
+            <td><span class="badge badge-green">Expert-curated</span></td>
+          </tr>
+          <tr>
+            <td>Community Focus</td>
+            <td>US-centric</td>
+            <td>US-centric</td>
+            <td><span class="badge badge-red">None</span></td>
+            <td><span class="badge badge-green">SG/SEA-first</span></td>
+          </tr>
+          <tr>
+            <td>Setup/Lube Service</td>
+            <td class="highlight">Pro Tune ($8-15)</td>
+            <td class="highlight">Premium Lube</td>
+            <td><span class="badge badge-red">None</span></td>
+            <td><span class="badge badge-green">Free setup included</span></td>
+          </tr>
+          <tr>
+            <td>After-Sales Support</td>
+            <td>US timezone</td>
+            <td>US timezone</td>
+            <td><span class="badge badge-red">Minimal</span></td>
+            <td><span class="badge badge-green">SGT, WhatsApp</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL SINGAPORE COMPETITORS -->
+<section id="local-competitors">
+  <div class="container">
+    <div class="section-label fade-in">Local Competitive Landscape</div>
+    <div class="section-title fade-in">Singapore's Existing Cube Stores</div>
+    <div class="divider fade-in"></div>
+    <p class="section-desc fade-in">Three established local players exist — but none dominate the online specialty space. Each has a different model, leaving significant room for a focused e-commerce entrant.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-bottom:32px">
+      <!-- Cubewerkz -->
+      <div class="chart-card fade-in" style="border-top:3px solid var(--accent)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:48px;height:48px;background:rgba(108,92,231,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">🏪</div>
+          <div>
+            <h3 style="margin:0">Cubewerkz</h3>
+            <div style="font-size:12px;color:var(--text3)">cubewerkz.com · Shopify · Physical Stores</div>
+          </div>
+        </div>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:16px">Singapore's most established speedcube retailer. <strong>Physical store locations</strong> + online Shopify store. Operates a <strong>Cubing Academy</strong> with classes. Has a competitive team. Prices in SGD.</p>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Business Model</td><td style="padding:8px 0;text-align:right"><span class="badge badge-blue">Physical + Online</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Platform</td><td style="padding:8px 0;text-align:right">Shopify</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Key Strength</td><td style="padding:8px 0;text-align:right">Academy, community, physical presence</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Weakness</td><td style="padding:8px 0;text-align:right;color:var(--yellow)">Higher prices (rent overhead)</td></tr>
+          <tr><td style="padding:8px 0;color:var(--text3)">Sample Prices (SGD)</td><td style="padding:8px 0;text-align:right;font-family:'JetBrains Mono';font-size:12px">GAN 16: $125 · V11: $25 · MGC3: $22</td></tr>
+        </table>
+      </div>
+
+      <!-- Mofunland -->
+      <div class="chart-card fade-in" style="border-top:3px solid var(--accent3)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:48px;height:48px;background:rgba(0,206,201,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">🎮</div>
+          <div>
+            <h3 style="margin:0">Mofunland</h3>
+            <div style="font-size:12px;color:var(--text3)">mofunland.com · Marina Square · Experience Venue</div>
+          </div>
+        </div>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:16px">Singapore's first <strong>cube-themed playground</strong> at Marina Square. Focus on <strong>experiential retail</strong> — play areas, cubing classes, certification, events, parties. Not primarily an online cube store.</p>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Business Model</td><td style="padding:8px 0;text-align:right"><span class="badge badge-orange">Experience + Retail</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Platform</td><td style="padding:8px 0;text-align:right">Webflow (not e-commerce)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Key Strength</td><td style="padding:8px 0;text-align:right">Experiential, family-friendly, brand</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Weakness</td><td style="padding:8px 0;text-align:right;color:var(--yellow)">Not an online cube store</td></tr>
+          <tr><td style="padding:8px 0;color:var(--text3)">Threat Level</td><td style="padding:8px 0;text-align:right"><span class="badge badge-green">Low (different model)</span></td></tr>
+        </table>
+      </div>
+
+      <!-- CuberSpace -->
+      <div class="chart-card fade-in" style="border-top:3px solid var(--orange)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:48px;height:48px;background:rgba(253,203,110,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">❓</div>
+          <div>
+            <h3 style="margin:0">CuberSpace</h3>
+            <div style="font-size:12px;color:var(--text3)">cuberspace.com · Status: Unreachable</div>
+          </div>
+        </div>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:16px">Website was <strong>unreachable during research</strong> (multiple attempts). May be defunct, temporarily down, or rebranding. Previously listed as a Singapore cube shop.</p>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Business Model</td><td style="padding:8px 0;text-align:right"><span class="badge badge-red">Unknown / Inactive</span></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--text3)">Website Status</td><td style="padding:8px 0;text-align:right;color:var(--red)">Unreachable (Jun 2026)</td></tr>
+          <tr><td style="padding:8px 0;color:var(--text3)">Threat Level</td><td style="padding:8px 0;text-align:right"><span class="badge badge-green">None (inactive)</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- LOCAL PRICE COMPARISON TABLE — REAL DATA -->
+    <div class="chart-card fade-in" style="overflow-x:auto">
+      <h3>🔥 Head-to-Head: XingleToy Wholesale vs Cubewerkz Retail</h3>
+      <div class="chart-sub">Live pricing pulled from XingleToy API (Jun 2026) vs Cubewerkz.com SGD prices · FX: 1 USD ≈ 1.35 SGD</div>
+      <table class="data-table" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>XingleToy Wholesale (USD)</th>
+            <th>Cubewerkz Retail (SGD)</th>
+            <th>Your Retail Price (SGD)</th>
+            <th>Your Gross Margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>GAN 12 MagLev UV</strong></td><td class="mono" style="color:var(--accent3)">$32.20</td><td class="mono">~$90</td><td class="mono highlight">$65 – $72</td><td><span class="badge badge-green">56-65%</span></td></tr>
+          <tr><td><strong>GAN 15 MagLev 3x3</strong></td><td class="mono" style="color:var(--accent3)">$37.76</td><td class="mono">$116</td><td class="mono highlight">$78 – $88</td><td><span class="badge badge-green">55-63%</span></td></tr>
+          <tr><td><strong>GAN 16 Max MagLev UV</strong></td><td class="mono" style="color:var(--accent3)">$56.93</td><td class="mono">$125</td><td class="mono highlight">$98 – $108</td><td><span class="badge badge-green">46-55%</span></td></tr>
+          <tr><td><strong>GAN i4 Smart Cube (Minions)</strong></td><td class="mono" style="color:var(--accent3)">$51.82</td><td class="mono">~$140</td><td class="mono highlight">$105 – $115</td><td><span class="badge badge-green">50-58%</span></td></tr>
+          <tr><td><strong>MoYu Weilong V11 (BC+UV)</strong></td><td class="mono" style="color:var(--accent3)">$21.09</td><td class="mono">$25</td><td class="mono highlight">$32 – $38</td><td><span class="badge badge-green">52-62%</span></td></tr>
+          <tr><td><strong>MoYu Huameng TG V2 (BC+UV)</strong></td><td class="mono" style="color:var(--accent3)">$25.83</td><td class="mono">$75</td><td class="mono highlight">$52 – $60</td><td><span class="badge badge-green">54-63%</span></td></tr>
+          <tr><td><strong>MoYu Super Weilong V2</strong></td><td class="mono" style="color:var(--accent3)">$51.98</td><td class="mono">$90</td><td class="mono highlight">$78 – $88</td><td><span class="badge badge-green">43-54%</span></td></tr>
+          <tr><td><strong>MoYu Super RS3M V2 MagLev UV</strong></td><td class="mono" style="color:var(--accent3)">$16.19</td><td class="mono">~$45</td><td class="mono highlight">$30 – $35</td><td><span class="badge badge-green">50-60%</span></td></tr>
+          <tr><td><strong>MoYu AoSu V7 4x4</strong></td><td class="mono" style="color:var(--accent3)">$8.01</td><td class="mono">$30</td><td class="mono highlight">$18 – $22</td><td><span class="badge badge-green">58-67%</span></td></tr>
+          <tr><td><strong>MoYu AoChuang V6 5x5 UV</strong></td><td class="mono" style="color:var(--accent3)">$14.55</td><td class="mono">~$50</td><td class="mono highlight">$28 – $34</td><td><span class="badge badge-green">54-63%</span></td></tr>
+          <tr><td><strong>GAN Megaminx V2 MagLev UV</strong></td><td class="mono" style="color:var(--accent3)">$39.89</td><td class="mono">~$95</td><td class="mono highlight">$72 – $80</td><td><span class="badge badge-green">49-57%</span></td></tr>
+          <tr><td><strong>GAN Pyraminx Enhanced</strong></td><td class="mono" style="color:var(--accent3)">$15.04</td><td class="mono">~$40</td><td class="mono highlight">$28 – $33</td><td><span class="badge badge-green">50-60%</span></td></tr>
+          <tr><td><strong>GAN SQ-1 (Magnetic+UV)</strong></td><td class="mono" style="color:var(--accent3)">$24.20</td><td class="mono">~$65</td><td class="mono highlight">$45 – $52</td><td><span class="badge badge-green">47-57%</span></td></tr>
+          <tr><td><strong>Cubicle DNM-37 Lube 10cc</strong></td><td class="mono" style="color:var(--accent3)">$3.69</td><td class="mono">~$15</td><td class="mono highlight">$10 – $12</td><td><span class="badge badge-green">67-72%</span></td></tr>
+          <tr><td><strong>Gan Lube 1</strong></td><td class="mono" style="color:var(--accent3)">$0.99</td><td class="mono">~$8</td><td class="mono highlight">$5 – $6</td><td><span class="badge badge-green">81-84%</span></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:16px;padding:12px 16px;background:rgba(0,184,148,.08);border-radius:8px;font-size:13px;color:var(--green)">
+        <strong>Key Insight:</strong> XingleToy wholesale prices allow you to undercut Cubewerkz by <strong>20-40%</strong> while still maintaining <strong>45-70% gross margins</strong>. Lubricants are the highest-margin category (67-84%). Your online-only model eliminates rent overhead, making this pricing structure sustainable.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPLY CHAIN + XINGLETOY -->
+<section id="supply">
+  <div class="container">
+    <div class="section-label fade-in">Supply Chain</div>
+    <div class="section-title fade-in">Direct from the Source</div>
+    <div class="divider fade-in"></div>
+
+    <!-- XINGLETOY SUPPLIER CARD -->
+    <div class="supplier-card fade-in">
+      <h3>✦ Strategic Supplier: XingleToy (星乐玩具)</h3>
+      <p>Direct manufacturer/wholesaler based in China's Shantou toy hub. Offers <strong>10-15% below standard Alibaba wholesale pricing</strong> — a significant competitive advantage that immediately improves unit economics and price competitiveness.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px">
+        <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent3);font-family:'JetBrains Mono'">10-15%</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">BELOW ALIBABA PRICING</div>
+        </div>
+        <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent3);font-family:'JetBrains Mono'">Shantou</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">TOY MANUFACTURING HUB</div>
+        </div>
+        <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent3);font-family:'JetBrains Mono'">2,500km</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">TO SINGAPORE BY SEA</div>
+        </div>
+        <div style="background:rgba(0,0,0,.2);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent3);font-family:'JetBrains Mono'">0%</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">SG IMPORT DUTY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- XINGLETOY API DATA — LIVE -->
+    <div class="chart-card fade-in" style="margin-bottom:24px;border:1px solid var(--accent3)">
+      <h3 style="color:var(--accent3)">📡 XingleToy API Data — Live Catalog Intelligence (Authenticated)</h3>
+      <div class="chart-sub">Data pulled from mallapi.xingletoy.com with Bearer token — wholesale prices in USD</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:20px 0">
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent2);font-family:'JetBrains Mono'">1,923</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">TOTAL SKUs</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent2);font-family:'JetBrains Mono'">430</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">3x3 CUBES</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent2);font-family:'JetBrains Mono'">139</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">2x2 CUBES</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent2);font-family:'JetBrains Mono'">26</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">BRANDS</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--accent2);font-family:'JetBrains Mono'">MOQ 1</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">MIN ORDER</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--green);font-family:'JetBrains Mono'">$0.54</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">CHEAPEST 3x3</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:28px;font-weight:800;color:var(--yellow);font-family:'JetBrains Mono'">$962</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">MOST EXPENSIVE</div>
+        </div>
+      </div>
+
+      <!-- CATEGORY BREAKDOWN -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:16px 0">
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>3x3 Speedcubes</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">430</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>2x2 Speedcubes</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">139</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>Pyraminx</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">73</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>4x4 Speedcubes</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">86</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>Megaminx</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">63</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>5x5 Speedcubes</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">65</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>7x7 Speedcubes</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">37</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>6x6 Speedcubes</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">33</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>Clock</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">20</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>SQ-1</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">14</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;font-size:13px"><span>Skewb</span><span style="font-family:'JetBrains Mono';color:var(--accent2)">12</span></div>
+      </div>
+
+      <!-- SAMPLE PRICES -->
+      <div style="margin-top:16px;font-size:13px;color:var(--text2)">
+        <strong style="color:var(--accent3)">Sample Wholesale Prices (USD, MOQ 1):</strong>
+        <div style="font-family:'JetBrains Mono';font-size:12px;background:rgba(0,0,0,.4);padding:12px;border-radius:8px;margin-top:8px;line-height:1.8">
+          GAN 16ui Smart Cube Max: <span style="color:var(--green)">$84.51</span> · GAN 12 MagLev UV: <span style="color:var(--green)">$32.20</span> · GAN 15 MagLev: <span style="color:var(--green)">$37.76</span><br>
+          MoYu Super Weilong V2: <span style="color:var(--green)">$51.98</span> · MoYu V11 (BC+UV): <span style="color:var(--green)">$21.09</span> · MoYu RS3M V2 MagLev UV: <span style="color:var(--green)">$16.19</span><br>
+          MoYu Huameng TG V2: <span style="color:var(--green)">$25.83</span> · MoYu AoSu V7 4x4: <span style="color:var(--green)">$8.01</span> · MoYu 5x5 V6 UV: <span style="color:var(--green)">$14.55</span><br>
+          GAN i4 Smart Minions: <span style="color:var(--green)">$51.82</span> · GAN Megaminx V2: <span style="color:var(--green)">$39.89</span> · GAN SQ-1: <span style="color:var(--green)">$24.20</span><br>
+          Cubicle DNM-37 10cc: <span style="color:var(--green)">$3.69</span> · Gan Lube 1: <span style="color:var(--green)">$0.99</span> · QiYi M-Lube: <span style="color:var(--green)">$0.25</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING COMPARISON -->
+    <div class="chart-card fade-in" style="overflow-x:auto;margin-bottom:32px">
+      <h3>Unit Cost Comparison: Alibaba vs XingleToy</h3>
+      <div class="chart-sub">XingleToy's 10-15% discount dramatically improves margins on every unit</div>
+      <table class="data-table" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>Product Tier</th>
+            <th>Alibaba Wholesale (USD)</th>
+            <th>XingleToy Est. (USD)</th>
+            <th>SGD Retail Price</th>
+            <th>Gross Margin (XingleToy)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Budget 3x3</strong><br><span style="color:var(--text3);font-size:12px">Generic stickerless</span></td>
+            <td class="mono">$0.12 – $0.15</td>
+            <td class="mono highlight">$0.10 – $0.13</td>
+            <td class="mono">$3 – $5</td>
+            <td><span class="badge badge-green">95%+</span></td>
+          </tr>
+          <tr>
+            <td><strong>Mid-Tier Branded</strong><br><span style="color:var(--text3);font-size:12px">QIYI / MoYu entry</span></td>
+            <td class="mono">$0.50 – $2.00</td>
+            <td class="mono highlight">$0.43 – $1.70</td>
+            <td class="mono">$8 – $15</td>
+            <td><span class="badge badge-green">85-90%</span></td>
+          </tr>
+          <tr>
+            <td><strong>Mid-Range</strong><br><span style="color:var(--text3);font-size:12px">MoYu RS3M, QiYi MS</span></td>
+            <td class="mono">$1.50 – $3.00</td>
+            <td class="mono highlight">$1.28 – $2.55</td>
+            <td class="mono">$12 – $20</td>
+            <td><span class="badge badge-green">80-87%</span></td>
+          </tr>
+          <tr>
+            <td><strong>Premium</strong><br><span style="color:var(--text3);font-size:12px">GAN non-smart</span></td>
+            <td class="mono">$3.00 – $8.00</td>
+            <td class="mono highlight">$2.55 – $6.80</td>
+            <td class="mono">$25 – $50</td>
+            <td><span class="badge badge-green">75-85%</span></td>
+          </tr>
+          <tr>
+            <td><strong>Smart Cubes</strong><br><span style="color:var(--text3);font-size:12px">GAN i-series</span></td>
+            <td class="mono">$18.00 – $25.00</td>
+            <td class="mono highlight">$15.30 – $21.25</td>
+            <td class="mono">$50 – $80</td>
+            <td><span class="badge badge-green">60-73%</span></td>
+          </tr>
+          <tr>
+            <td><strong>Lubricants</strong><br><span style="color:var(--text3);font-size:12px">5ml bottles</span></td>
+            <td class="mono">$0.30 – $0.80</td>
+            <td class="mono highlight">$0.26 – $0.68</td>
+            <td class="mono">$5 – $10</td>
+            <td><span class="badge badge-green">90%+</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- LANDED COST -->
+    <div class="chart-grid">
+      <div class="chart-card fade-in">
+        <h3>Landed Cost Breakdown</h3>
+        <div class="chart-sub">Per MoYu V11 unit via XingleToy · Wholesale $21.09 USD → landed ~$4.22 SGD shipping</div>
+        <div class="chart-wrap"><canvas id="costChart"></canvas></div>
+      </div>
+      <div class="chart-card fade-in">
+        <h3>Margin by Category (XingleToy Sourcing)</h3>
+        <div class="chart-sub">Gross margin at suggested retail pricing vs XingleToy wholesale</div>
+        <div class="chart-wrap"><canvas id="marginChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCIALS -->
+<section id="financials">
+  <div class="container">
+    <div class="section-label fade-in">Financial Projections</div>
+    <div class="section-title fade-in">Path to Profitability</div>
+    <div class="divider fade-in"></div>
+
+    <div class="chart-grid">
+      <div class="chart-card fade-in">
+        <h3>Revenue Projection (3-Year)</h3>
+        <div class="chart-sub">SGD — Conservative, Base, and Optimistic scenarios</div>
+        <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+      </div>
+      <div class="chart-card fade-in">
+        <h3>Unit Economics per Order</h3>
+        <div class="chart-sub">Average order value SGD $35 (2-3 cubes per order)</div>
+        <div class="chart-wrap"><canvas id="unitChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- UNIT ECONOMICS TABLE -->
+    <div class="chart-card fade-in" style="overflow-x:auto;margin-top:24px">
+      <h3>Detailed Unit Economics</h3>
+      <div class="chart-sub">Per-order P&L at SGD $35 average order value</div>
+      <table class="data-table" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Cost (SGD)</th>
+            <th>% of Revenue</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Revenue</strong></td><td class="mono highlight">$35.00</td><td>100%</td><td>Avg 2.5 cubes/order</td></tr>
+          <tr><td>Product cost (XingleToy)</td><td class="mono">-$7.85</td><td>22.4%</td><td><span class="badge badge-green">Real API price</span></td></tr>
+          <tr><td>Packaging</td><td class="mono">-$1.50</td><td>4.3%</td><td>Branded box, stickers, thank-you card</td></tr>
+          <tr><td>Local shipping (Ninja Van)</td><td class="mono">-$4.00</td><td>11.4%</td><td>Door-to-door delivery</td></tr>
+          <tr><td>Payment processing</td><td class="mono">-$1.12</td><td>3.2%</td><td>Stripe/Shopify Payments</td></tr>
+          <tr style="border-top:2px solid var(--accent)"><td><strong>Gross Profit</strong></td><td class="mono highlight"><strong>$20.53</strong></td><td><strong>58.7%</strong></td><td></td></tr>
+          <tr><td>Platform (Shopify)</td><td class="mono">-$1.00</td><td>2.9%</td><td>Allocated per order</td></tr>
+          <tr><td>Marketing (15%)</td><td class="mono">-$5.25</td><td>15.0%</td><td>Social ads, content</td></tr>
+          <tr style="border-top:2px solid var(--green)"><td><strong>Net Profit</strong></td><td class="mono highlight"><strong>$14.28</strong></td><td><strong>40.8%</strong></td><td><span class="badge badge-green">Based on real XingleToy pricing</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BREAK-EVEN -->
+    <div class="chart-card fade-in" style="margin-top:24px">
+      <h3>Break-Even Analysis</h3>
+      <div class="chart-sub">Monthly orders needed to cover fixed costs</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:20px">
+        <div style="background:rgba(0,184,148,.05);border:1px solid rgba(0,184,148,.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Lean (Solo, Home)</div>
+          <div style="font-size:40px;font-weight:800;color:var(--green);font-family:'JetBrains Mono'">24</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px">orders/month</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:8px">Fixed costs: $500/mo</div>
+          <div class="progress-bar" style="margin-top:12px"><div class="fill" style="width:24%;background:var(--gradient2)"></div></div>
+          <div style="font-size:11px;color:var(--green);font-weight:600;margin-top:4px">✓ Achievable Month 3-4</div>
+        </div>
+        <div style="background:rgba(108,92,231,.05);border:1px solid rgba(108,92,231,.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Standard (Part-time Help)</div>
+          <div style="font-size:40px;font-weight:800;color:var(--accent2);font-family:'JetBrains Mono'">72</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px">orders/month</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:8px">Fixed costs: $1,500/mo</div>
+          <div class="progress-bar" style="margin-top:12px"><div class="fill" style="width:48%;background:var(--gradient1)"></div></div>
+          <div style="font-size:11px;color:var(--accent2);font-weight:600;margin-top:4px">Achievable Month 6-8</div>
+        </div>
+        <div style="background:rgba(253,203,110,.05);border:1px solid rgba(253,203,110,.2);border-radius:12px;padding:20px;text-align:center">
+          <div style="font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Growth (Full-time + Warehouse)</div>
+          <div style="font-size:40px;font-weight:800;color:var(--yellow);font-family:'JetBrains Mono'">191</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px">orders/month</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:8px">Fixed costs: $4,000/mo</div>
+          <div class="progress-bar" style="margin-top:12px"><div class="fill" style="width:72%;background:var(--gradient4)"></div></div>
+          <div style="font-size:11px;color:var(--yellow);font-weight:600;margin-top:4px">Achievable Month 12-15</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGULATORY FRAMEWORK -->
+<section id="regulatory">
+  <div class="container">
+    <div class="section-label fade-in">Regulatory & Legal Framework</div>
+    <div class="section-title fade-in">Home-Based Business: EP/DP Structure</div>
+    <div class="divider fade-in"></div>
+
+    <div class="supplier-card fade-in" style="border-color:var(--yellow);background:linear-gradient(135deg,rgba(253,203,110,.08),rgba(108,92,231,.08))">
+      <h3 style="color:var(--yellow)">⚠ Key Constraint: EP/S Pass Holders Cannot Register a Business</h3>
+      <p>Under Singapore's Employment of Foreign Manpower Act, <strong>EP and S Pass holders are prohibited from starting or operating a business</strong> in Singapore. However, your <strong>Dependent Pass (DP) holder spouse can register and operate the business</strong> with a Letter of Consent (LOC) from MOM.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-bottom:32px">
+      <!-- Step 1: DP Holder Registration -->
+      <div class="chart-card fade-in" style="border-top:3px solid var(--green)">
+        <h4 style="color:var(--green);margin-bottom:16px">✅ Step 1: Register Business Under DP Holder</h4>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Who registers</td><td style="padding:10px 0;text-align:right"><strong>Your wife (DP holder)</strong></td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Business structure</td><td style="padding:10px 0;text-align:right">Sole Proprietorship</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Registration body</td><td style="padding:10px 0;text-align:right">ACRA (BizFile+)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Registration fee</td><td style="padding:10px 0;text-align:right;font-family:'JetBrains Mono'">$100 SGD</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Annual renewal</td><td style="padding:10px 0;text-align:right;font-family:'JetBrains Mono'">$30 SGD/year</td></tr>
+          <tr><td style="padding:10px 0;color:var(--text3)">Requirements</td><td style="padding:10px 0;text-align:right">Local address, DP valid</td></tr>
+        </table>
+      </div>
+
+      <!-- Step 2: Letter of Consent -->
+      <div class="chart-card fade-in" style="border-top:3px solid var(--accent)">
+        <h4 style="color:var(--accent2);margin-bottom:16px">📋 Step 2: Apply for Letter of Consent (LOC)</h4>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">What is LOC</td><td style="padding:10px 0;text-align:right">MOM permit for DP holders to run a business</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Who applies</td><td style="padding:10px 0;text-align:right">DP holder (your wife)</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Applied through</td><td style="padding:10px 0;text-align:right">MOM's EP Online / EPOL</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Processing time</td><td style="padding:10px 0;text-align:right">~3-5 weeks</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 0;color:var(--text3)">Validity</td><td style="padding:10px 0;text-align:right">Tied to DP validity</td></tr>
+          <tr><td style="padding:10px 0;color:var(--text3)">Cost</td><td style="padding:10px 0;text-align:right;font-family:'JetBrains Mono'">Free (no fee)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- EP Holder Role -->
+    <div class="chart-card fade-in" style="margin-bottom:24px">
+      <h3>Your Role (EP/S Pass Holder)</h3>
+      <div class="chart-sub">What you can and cannot do under Singapore law</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px">
+        <div style="padding:16px;background:rgba(0,184,148,.05);border-radius:12px;border:1px solid rgba(0,184,148,.15)">
+          <h4 style="color:var(--green);font-size:14px;margin-bottom:12px">✅ CAN Do</h4>
+          <ul style="list-style:none;padding:0;font-size:13px;color:var(--text2)">
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Help with business strategy & planning</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Advise on product selection & sourcing</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Provide technical/website support</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Help with marketing strategy</li>
+            <li style="padding:6px 0">→ Be a shareholder in a Pte Ltd (if converting later)</li>
+          </ul>
+        </div>
+        <div style="padding:16px;background:rgba(255,107,107,.05);border-radius:12px;border:1px solid rgba(255,107,107,.15)">
+          <h4 style="color:var(--red);font-size:14px;margin-bottom:12px">❌ CANNOT Do</h4>
+          <ul style="list-style:none;padding:0;font-size:13px;color:var(--text2)">
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Be the registered business owner</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Sign contracts as the business principal</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Be listed as Sole Proprietor</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03)">→ Draw a salary from the business</li>
+            <li style="padding:6px 0">→ Be the director of a Pte Ltd (without LOC)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Regulatory Checklist -->
+    <div class="chart-card fade-in" style="overflow-x:auto">
+      <h3>Complete Regulatory Checklist — Home-Based E-Commerce</h3>
+      <div class="chart-sub">Everything needed to legally operate from home in Singapore</div>
+      <table class="data-table" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Requirement</th>
+            <th>Authority</th>
+            <th>Cost</th>
+            <th>Timeline</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>ACRA Business Registration</strong><br><span style="color:var(--text3);font-size:12px">Sole Proprietorship under DP holder name</span></td><td>ACRA</td><td class="mono">$100</td><td>1 day</td><td><span class="badge badge-green">Required</span></td></tr>
+          <tr><td>2</td><td><strong>Letter of Consent (LOC)</strong><br><span style="color:var(--text3);font-size:12px">MOM approval for DP holder to operate business</span></td><td>MOM</td><td class="mono">Free</td><td>3-5 weeks</td><td><span class="badge badge-green">Required</span></td></tr>
+          <tr><td>3</td><td><strong>Corpass & UEN</strong><br><span style="color:var(--text3);font-size:12px">CorpPass for gov transactions, UEN for business identity</span></td><td>ACRA</td><td class="mono">Free</td><td>Auto-assigned</td><td><span class="badge badge-green">Auto</span></td></tr>
+          <tr><td>4</td><td><strong>Business Bank Account</strong><br><span style="color:var(--text3);font-size:12px">DBS/OCBC/UOB business account for DP holder</span></td><td>Bank</td><td class="mono">$0-50</td><td>1-2 weeks</td><td><span class="badge badge-green">Required</span></td></tr>
+          <tr><td>5</td><td><strong>GST Registration</strong><br><span style="color:var(--text3);font-size:12px">Only if turnover exceeds $1M SGD (not needed initially)</span></td><td>IRAS</td><td class="mono">Free</td><td>N/A</td><td><span class="badge badge-yellow">Monitor</span></td></tr>
+          <tr><td>6</td><td><strong>PDPA Compliance</strong><br><span style="color:var(--text3);font-size:12px">Privacy policy on website, data consent</span></td><td>PDPC</td><td class="mono">$0</td><td>Before launch</td><td><span class="badge badge-green">Required</span></td></tr>
+          <tr><td>7</td><td><strong>Import Permit (if >$400/shipment)</strong><br><span style="color:var(--text3);font-size:12px">TradeNet permit for commercial imports</span></td><td>Singapore Customs</td><td class="mono">~$20-50</td><td>Per shipment</td><td><span class="badge badge-yellow">As needed</span></td></tr>
+          <tr><td>8</td><td><strong>HDB Home-Based Business Scheme</strong><br><span style="color:var(--text3);font-size:12px">If operating from HDB flat — no license needed if conditions met</span></td><td>HDB</td><td class="mono">Free</td><td>N/A</td><td><span class="badge badge-green">Auto-qualify</span></td></tr>
+          <tr><td>9</td><td><strong>Shopify + Domain</strong><br><span style="color:var(--text3);font-size:12px">E-commerce platform & .sg/.com domain</span></td><td>—</td><td class="mono">$35/mo</td><td>Same day</td><td><span class="badge badge-blue">Setup</span></td></tr>
+          <tr><td>10</td><td><strong>Shopee/Lazada Seller Account</strong><br><span style="color:var(--text3);font-size:12px">Marketplace presence — free registration</span></td><td>—</td><td class="mono">Free</td><td>1-3 days</td><td><span class="badge badge-blue">Setup</span></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:16px;padding:12px 16px;background:rgba(0,184,148,.08);border-radius:8px;font-size:13px;color:var(--green)">
+        <strong>HDB Home-Based Business:</strong> Singapore allows small-scale home-based businesses in HDB flats without a license, as long as you don't hire external employees, don't cause nuisance, and don't display signage. Perfect for a lean cube store operation. No additional HDB approval needed.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SWOT -->
+<section>
+  <div class="container">
+    <div class="section-label fade-in">Strategic Assessment</div>
+    <div class="section-title fade-in">SWOT Analysis</div>
+    <div class="divider fade-in"></div>
+    <div class="swot-grid">
+      <div class="swot-card swot-s fade-in">
+        <h4>💪 Strengths</h4>
+        <ul>
+          <li>No dedicated local competitor — first-mover advantage</li>
+          <li>Proximity to manufacturers (2,500km, 7-day sea freight)</li>
+          <li>Singapore's 0% import duty on toys</li>
+          <li>World-class e-commerce infrastructure</li>
+          <li>XingleToy pricing advantage (10-15% below market)</li>
+          <li>Very low startup costs (SGD $5K-15K)</li>
+        </ul>
+      </div>
+      <div class="swot-card swot-w fade-in">
+        <h4>⚠️ Weaknesses</h4>
+        <ul>
+          <li>New brand — zero market recognition initially</li>
+          <li>Solo founder capacity constraints</li>
+          <li>Small initial inventory selection</li>
+          <li>No physical showroom or touchpoint</li>
+          <li>Limited marketing budget at launch</li>
+        </ul>
+      </div>
+      <div class="swot-card swot-o fade-in">
+        <h4>🚀 Opportunities</h4>
+        <ul>
+          <li>SEA expansion — 680M+ population, no dominant player</li>
+          <li>Smart cube market growing rapidly</li>
+          <li>Educational/STEM positioning in schools</li>
+          <li>Content creator partnerships (SG YouTubers)</li>
+          <li>Subscription/membership recurring revenue</li>
+          <li>WCA competition sponsorship & community building</li>
+        </ul>
+      </div>
+      <div class="swot-card swot-t fade-in">
+        <h4>🔴 Threats</h4>
+        <ul>
+          <li>Shopee/Lazada price race to the bottom</li>
+          <li>US stores improving SG shipping times</li>
+          <li>GAN moving to direct-to-consumer model</li>
+          <li>Copycat competitors entering the gap</li>
+          <li>Economic downturn reducing discretionary spend</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-label fade-in">Implementation Plan</div>
+    <div class="section-title fade-in">18-Month Execution Roadmap</div>
+    <div class="divider fade-in"></div>
+    <div class="timeline">
+      <div class="timeline-item active fade-in">
+        <div class="tl-phase">Phase 0 — Month 0</div>
+        <div class="tl-title">Pre-Launch Setup</div>
+        <div class="tl-desc">Register business (ACRA Sole Prop). Finalize XingleToy supplier agreement. Order 60-80 SKU samples. Build Shopify store. Create social accounts. Design branding & packaging.</div>
+        <span class="tl-target">Investment: $2,000 – $5,000</span>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="tl-phase">Phase 1 — Month 1-3</div>
+        <div class="tl-title">Soft Launch & Validation</div>
+        <div class="tl-desc">Launch Shopify store + Shopee listing. Start TikTok/Reels content (3x/week). Sponsor 1 WCA competition. Collect first 20+ reviews. Test pricing & product mix.</div>
+        <span class="tl-target">Target: 50-80 orders/month</span>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="tl-phase">Phase 2 — Month 4-9</div>
+        <div class="tl-title">Growth & Optimization</div>
+        <div class="tl-desc">Add Lazada + TikTok Shop. Launch Instagram/Meta ads. Introduce loyalty program. Expand to 150+ SKUs. Hire part-time packer. Begin email marketing. Community events.</div>
+        <span class="tl-target">Target: 150 orders/month</span>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="tl-phase">Phase 3 — Month 10-18</div>
+        <div class="tl-title">Scale & Regional Expansion</div>
+        <div class="tl-desc">Convert to Pte Ltd. Outsource fulfillment (Ninja Fulfilment). Launch cross-border shipping to MY, TH, ID, PH. Explore exclusive distributor deals. Evaluate pop-up showroom.</div>
+        <span class="tl-target">Target: 300-400 orders/month · $200K+ ARR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETING & LAUNCH STRATEGY -->
+<section id="marketing">
+  <div class="container">
+    <div class="section-label fade-in">Go-to-Market Strategy</div>
+    <div class="section-title fade-in">How We Win Customers</div>
+    <div class="divider fade-in"></div>
+
+    <!-- CHANNEL STRATEGY -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:32px">
+      <div class="chart-card fade-in" style="border-top:3px solid var(--green)">
+        <h4 style="color:var(--green);margin-bottom:16px">🚀 Phase 1: Community-First (Month 1-3)</h4>
+        <ul style="list-style:none;padding:0;font-size:13px;color:var(--text2)">
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>TikTok/Reels content</strong> 3x/week (satisfying solves, unboxing ASMR)</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>WCA competition sponsorship</strong> ($200-500 per event)</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Influencer seeding</strong> — free cubes to SG YouTubers/TikTokers</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>SEO content</strong>: "buy speedcube Singapore", "best 3x3 cube 2026"</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Facebook group engagement</strong> (Singapore Cubing community)</li>
+          <li style="padding:8px 0">→ <strong>Target: 50-80 orders/month</strong></li>
+        </ul>
+      </div>
+      <div class="chart-card fade-in" style="border-top:3px solid var(--accent)">
+        <h4 style="color:var(--accent2);margin-bottom:16px">📈 Phase 2: Paid Acquisition (Month 4-9)</h4>
+        <ul style="list-style:none;padding:0;font-size:13px;color:var(--text2)">
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Meta ads</strong> (IG/FB): ages 13-35, interests: Rubik's, puzzles, STEM</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Google Shopping ads</strong>: high-intent "buy cube" keywords</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Shopee ads</strong>: sponsored listings + flash sales</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>TikTok Shop</strong>: live selling events (huge in SEA)</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Email marketing</strong>: launches, tips, exclusive deals</li>
+          <li style="padding:8px 0">→ <strong>Target: 150 orders/month</strong></li>
+        </ul>
+      </div>
+      <div class="chart-card fade-in" style="border-top:3px solid var(--yellow)">
+        <h4 style="color:var(--yellow);margin-bottom:16px">🌏 Phase 3: Scale & Expand (Month 10-18)</h4>
+        <ul style="list-style:none;padding:0;font-size:13px;color:var(--text2)">
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Loyalty program</strong>: points, referrals, tiered membership</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Subscription box</strong>: monthly mystery cube ($25-35/month)</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Regional shipping</strong>: MY → TH → ID → PH</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Brand partnerships</strong>: exclusive distributor deals</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--border)">→ <strong>Content creator collabs</strong>: co-branded cubes</li>
+          <li style="padding:8px 0">→ <strong>Target: 300-400 orders/month, $200K+ ARR</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- UNIQUE VALUE PROPOSITIONS -->
+    <div class="chart-card fade-in" style="margin-bottom:24px">
+      <h3>Why Customers Choose Us</h3>
+      <div class="chart-sub">Unique Value Propositions vs Competition</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:16px">
+        <div style="padding:16px;background:rgba(0,184,148,.05);border-radius:12px;border-left:3px solid var(--green)">
+          <div style="font-size:16px;font-weight:700;color:var(--green);margin-bottom:4px">⚡ 1-3 Day Delivery</div>
+          <div style="font-size:13px;color:var(--text2)">vs 7-14 days from US stores. Local warehouse, Ninja Van same-day dispatch.</div>
+        </div>
+        <div style="padding:16px;background:rgba(108,92,231,.05);border-radius:12px;border-left:3px solid var(--accent)">
+          <div style="font-size:16px;font-weight:700;color:var(--accent2);margin-bottom:4px">🎯 Curated by Cubers</div>
+          <div style="font-size:13px;color:var(--text2)">Expert picks, not random marketplace listings. Every product tested and reviewed by our team.</div>
+        </div>
+        <div style="padding:16px;background:rgba(0,206,201,.05);border-radius:12px;border-left:3px solid var(--accent3)">
+          <div style="font-size:16px;font-weight:700;color:var(--accent3);margin-bottom:4px">💰 SGD Pricing, No Surprises</div>
+          <div style="font-size:13px;color:var(--text2)">Transparent all-in pricing. No customs surprises, no FX fees, no hidden shipping costs.</div>
+        </div>
+        <div style="padding:16px;background:rgba(253,203,110,.05);border-radius:12px;border-left:3px solid var(--yellow)">
+          <div style="font-size:16px;font-weight:700;color:var(--yellow);margin-bottom:4px">🔧 Free Setup & Lube</div>
+          <div style="font-size:13px;color:var(--text2)">Premium cubes come pre-lubed and tensioned. A service US stores charge $8-15 for.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKETING BUDGET -->
+    <div class="chart-card fade-in" style="overflow-x:auto">
+      <h3>Marketing Budget Allocation (Year 1)</h3>
+      <div class="chart-sub">Total Year 1 marketing spend: ~$6,000-12,000 SGD</div>
+      <table class="data-table" style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th>Monthly Budget</th>
+            <th>Year 1 Total</th>
+            <th>Expected CAC</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Meta Ads (IG/FB)</strong></td><td class="mono">$300-500</td><td class="mono">$3,600-6,000</td><td class="mono">$8-12</td><td><span class="badge badge-blue">Awareness + Conversion</span></td></tr>
+          <tr><td><strong>Google Shopping</strong></td><td class="mono">$200-300</td><td class="mono">$2,400-3,600</td><td class="mono">$6-10</td><td><span class="badge badge-green">High-intent capture</span></td></tr>
+          <tr><td><strong>Shopee Ads</strong></td><td class="mono">$100-200</td><td class="mono">$1,200-2,400</td><td class="mono">$5-8</td><td><span class="badge badge-green">Marketplace visibility</span></td></tr>
+          <tr><td><strong>Influencer/Seeding</strong></td><td class="mono">$50-100</td><td class="mono">$600-1,200</td><td class="mono">$3-5</td><td><span class="badge badge-yellow">Brand building</span></td></tr>
+          <tr><td><strong>Content Creation</strong></td><td class="mono">$0 (self)</td><td class="mono">$0</td><td class="mono">—</td><td><span class="badge badge-yellow">Organic growth</span></td></tr>
+          <tr><td><strong>WCA Sponsorship</strong></td><td class="mono">$50-100</td><td class="mono">$300-600</td><td class="mono">—</td><td><span class="badge badge-yellow">Community goodwill</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label" style="text-align:center">The Opportunity is Clear</div>
+      <h2>Ready to Build <span style="background:var(--gradient1);-webkit-background-clip:text;-webkit-text-fill-color:transparent">SEA's Cube Store</span>?</h2>
+      <p>A $5K investment. 60-80% margins. Zero dedicated competitors. The market gap is now.</p>
+      <a href="#" class="cta-btn">Download Full Report (PDF)</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>SG Cubing Co. — Strategic Market Entry Assessment · June 2026 · Prepared for Stakeholder Review</p>
+    <p style="margin-top:8px;color:var(--text3)">Sources: WCA, Singapore DOS, Alibaba, SpeedCubeShop, TheCubicle, Singapore Customs, ACRA, IRAS</p>
+  </div>
+</footer>
+
+<script>
+// ============================================
+// CHART.JS GLOBAL CONFIG
+// ============================================
+Chart.defaults.color = '#a0a0c0';
+Chart.defaults.borderColor = '#232340';
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.padding = 16;
+
+const COLORS = {
+  accent: '#6c5ce7', accent2: '#a29bfe', accent3: '#00cec9',
+  green: '#00b894', red: '#ff6b6b', yellow: '#ffeaa7',
+  orange: '#fdcb6e', pink: '#fd79a8',
+  accentA: 'rgba(108,92,231,0.2)', accent3A: 'rgba(0,206,201,0.2)',
+  greenA: 'rgba(0,184,148,0.2)', pinkA: 'rgba(253,121,168,0.2)'
+};
+
+// ============================================
+// 1. WCA COMPETITION GROWTH
+// ============================================
+new Chart(document.getElementById('wcaChart'), {
+  type: 'line',
+  data: {
+    labels: ['2004','2006','2008','2010','2012','2014','2016','2018','2020','2022','2024','2025'],
+    datasets: [{
+      label: 'WCA Competitions/Year',
+      data: [12, 28, 50, 100, 200, 350, 600, 900, 400, 1100, 1600, 1800],
+      borderColor: COLORS.accent,
+      backgroundColor: COLORS.accentA,
+      fill: true,
+      tension: 0.4,
+      pointRadius: 4,
+      pointBackgroundColor: COLORS.accent
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.y + ' competitions' }}
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' }},
+      x: { grid: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// 2. TAM/SAM/SOM
+// ============================================
+new Chart(document.getElementById('tamChart'), {
+  type: 'bar',
+  data: {
+    labels: ['TAM', 'SAM', 'SOM (Year 1)'],
+    datasets: [{
+      label: 'SGD Millions',
+      data: [5, 2, 0.08],
+      backgroundColor: [COLORS.accent, COLORS.accent2, COLORS.green],
+      borderRadius: 8,
+      barThickness: 60
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: { legend: { display: false }},
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { callback: v => '$' + v + 'M' }},
+      y: { grid: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// 3. SEA E-COMMERCE
+// ============================================
+new Chart(document.getElementById('seaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Indonesia','Thailand','Vietnam','Philippines','Malaysia','Singapore'],
+    datasets: [{
+      label: 'E-Commerce (USD B)',
+      data: [62, 22, 20, 18, 14, 13],
+      backgroundColor: [COLORS.accent, COLORS.accent2, COLORS.accent3, COLORS.green, COLORS.orange, COLORS.pink],
+      borderRadius: 8,
+      barThickness: 40
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }},
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { callback: v => '$' + v + 'B' }},
+      x: { grid: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// 4. DEMOGRAPHICS
+// ============================================
+new Chart(document.getElementById('demoChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['0-14 (13.6%)','15-24 (7.1%)','25-44 (26.3%)','45-64 (34.2%)','65+ (18.8%)'],
+    datasets: [{
+      data: [13.6, 7.1, 26.3, 34.2, 18.8],
+      backgroundColor: [COLORS.green, COLORS.accent3, COLORS.accent, COLORS.accent2, COLORS.orange],
+      borderWidth: 0,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '55%',
+    plugins: {
+      legend: { position: 'right', labels: { padding: 12, font: { size: 12 }}}
+    }
+  }
+});
+
+// ============================================
+// 5. COMPETITIVE POSITIONING (SCATTER)
+// ============================================
+new Chart(document.getElementById('positionChart'), {
+  type: 'bubble',
+  data: {
+    datasets: [
+      { label: 'SpeedCubeShop', data: [{ x: 85, y: 80, r: 18 }], backgroundColor: 'rgba(108,92,231,0.6)' },
+      { label: 'TheCubicle', data: [{ x: 80, y: 85, r: 16 }], backgroundColor: 'rgba(162,155,254,0.6)' },
+      { label: 'Shopee Sellers', data: [{ x: 25, y: 15, r: 14 }], backgroundColor: 'rgba(255,107,107,0.6)' },
+      { label: 'Lazada Sellers', data: [{ x: 30, y: 12, r: 12 }], backgroundColor: 'rgba(253,203,110,0.6)' },
+      { label: 'GAN (DTC)', data: [{ x: 70, y: 60, r: 14 }], backgroundColor: 'rgba(0,206,201,0.6)' },
+      { label: 'YOUR STORE ✦', data: [{ x: 55, y: 75, r: 22 }], backgroundColor: 'rgba(0,184,148,0.8)' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label }}
+    },
+    scales: {
+      x: { title: { display: true, text: 'Price Positioning →', color: '#606080' }, min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { display: false }},
+      y: { title: { display: true, text: '↑ Expertise & Curation', color: '#606080' }, min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// 6. LANDED COST BREAKDOWN
+// ============================================
+new Chart(document.getElementById('costChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Product (XingleToy $21.09)', 'Shipping to SG ($4.22)', 'Import GST 9% ($2.28)', 'Customs ($0.50)', 'Packaging ($1.50)', 'Local Delivery ($4.00)'],
+    datasets: [{
+      data: [28.67, 5.74, 3.10, 0.68, 2.04, 5.44],
+      backgroundColor: [COLORS.accent3, COLORS.accent, COLORS.orange, COLORS.yellow, COLORS.green, COLORS.pink],
+      borderWidth: 0,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '50%',
+    plugins: {
+      legend: { position: 'right', labels: { padding: 10, font: { size: 11 }}},
+      tooltip: { callbacks: { label: ctx => ctx.label + ': $' + ctx.parsed + ' SGD' }}
+    }
+  }
+});
+
+// ============================================
+// 7. MARGIN COMPARISON
+// ============================================
+new Chart(document.getElementById('marginChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Budget 3x3', 'Mid-Range 3x3', 'Premium 3x3', 'Smart Cube', 'Big Cubes (5x5+)', 'Lubricant'],
+    datasets: [
+      {
+        label: 'XingleToy Wholesale (USD)',
+        data: [0.74, 16.19, 32.20, 51.82, 14.55, 0.99],
+        backgroundColor: 'rgba(0,206,201,0.4)',
+        borderColor: COLORS.accent3,
+        borderWidth: 1,
+        borderRadius: 6,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Your Retail (SGD)',
+        data: [6, 32, 68, 110, 30, 6],
+        backgroundColor: 'rgba(108,92,231,0.4)',
+        borderColor: COLORS.accent,
+        borderWidth: 1,
+        borderRadius: 6,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Gross Margin %',
+        data: [82, 58, 62, 56, 61, 82],
+        type: 'line',
+        borderColor: COLORS.green,
+        backgroundColor: 'transparent',
+        pointBackgroundColor: COLORS.green,
+        pointRadius: 5,
+        tension: 0.3,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: { callbacks: { label: ctx => { if(ctx.dataset.yAxisID==='y1') return ctx.dataset.label + ': ' + ctx.parsed.y + '%'; return ctx.dataset.label + ': $' + ctx.parsed.y + ' SGD'; }}}
+    },
+    scales: {
+      y: { beginAtZero: true, position: 'left', grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { callback: v => '$' + v }, title: { display: true, text: 'Price (SGD)', color: '#606080' }},
+      y1: { beginAtZero: true, max: 100, position: 'right', grid: { display: false }, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Margin %', color: '#00b894' }},
+      x: { grid: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// 8. REVENUE PROJECTION
+// ============================================
+new Chart(document.getElementById('revenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['M1','M3','M6','M9','M12','M15','M18','M21','M24','M30','M36'],
+    datasets: [
+      {
+        label: 'Conservative',
+        data: [500,2500,5000,8000,12000,16000,21000,28000,36000,55000,80000],
+        borderColor: COLORS.accent2, backgroundColor: COLORS.accentA,
+        fill: false, tension: 0.4, borderDash: [5,5]
+      },
+      {
+        label: 'Base Case',
+        data: [800,4000,9000,15000,21000,32000,45000,65000,90000,140000,201600],
+        borderColor: COLORS.green, backgroundColor: COLORS.greenA,
+        fill: true, tension: 0.4
+      },
+      {
+        label: 'Optimistic',
+        data: [1200,6000,14000,24000,36000,55000,80000,120000,170000,280000,420000],
+        borderColor: COLORS.accent3,
+        fill: false, tension: 0.4, borderDash: [5,5]
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString() + ' SGD' }}
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { callback: v => '$' + (v/1000) + 'K' }},
+      x: { grid: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// 9. UNIT ECONOMICS (STACKED BAR)
+// ============================================
+new Chart(document.getElementById('unitChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Revenue Breakdown'],
+    datasets: [
+      { label: 'Product Cost', data: [7.85], backgroundColor: COLORS.red, borderRadius: 4 },
+      { label: 'Packaging', data: [1.50], backgroundColor: COLORS.orange, borderRadius: 4 },
+      { label: 'Shipping', data: [4.00], backgroundColor: COLORS.yellow, borderRadius: 4 },
+      { label: 'Payment', data: [1.12], backgroundColor: '#636e72', borderRadius: 4 },
+      { label: 'Platform', data: [1.00], backgroundColor: COLORS.accent2, borderRadius: 4 },
+      { label: 'Marketing', data: [5.25], backgroundColor: COLORS.pink, borderRadius: 4 },
+      { label: 'Net Profit', data: [14.28], backgroundColor: COLORS.green, borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: {
+      legend: { position: 'bottom', labels: { padding: 10, font: { size: 11 }}},
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.parsed.x + ' SGD' }}
+    },
+    scales: {
+      x: { stacked: true, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { callback: v => '$' + v }},
+      y: { stacked: true, grid: { display: false }, ticks: { display: false }}
+    }
+  }
+});
+
+// ============================================
+// COUNTER ANIMATION
+// ============================================
+function animateCounters() {
+  document.querySelectorAll('.counter').forEach(el => {
+    if (el.dataset.animated) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top > window.innerHeight || rect.bottom < 0) return;
+    el.dataset.animated = 'true';
+
+    const target = parseFloat(el.dataset.target);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      el.textContent = prefix + current.toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// ============================================
+// SCROLL ANIMATIONS
+// ============================================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      animateCounters();
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Initial check
+window.addEventListener('load', () => {
+  animateCounters();
+  // Animate progress bars after delay
+  setTimeout(() => {
+    document.querySelectorAll('.progress-bar .fill').forEach(el => {
+      el.style.width = el.style.width; // trigger reflow
+    });
+  }, 500);
+});
+
+// Smooth nav scroll
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
