@@ -271,8 +271,15 @@ GAN, MoYu (魔域), QiYi (奇艺), ShengShou (圣手), YJ (永骏), Vin, DaYan (
 |--------|---------|-------------|----------|
 | Sea freight (LCL) | $0.50-1.50 | 7-14 days | Bulk orders 100kg+ |
 | Air freight | $3-6 | 3-5 days | 50-500kg urgent |
-| Express (DHL/FedEx) | $8-15 | 2-4 days | Small parcels <30kg |
+| Express (DHL/FedEx) | $8-15 | 2-4 days | Small parcels <30kg (High base fee) |
 | E-packet/postal | $2-5 | 10-21 days | Small orders |
+
+#### ⚡ Critical Micro-Batch Shipping Optimization (Forwarder Rerouting)
+*Problem:* XingleToy direct international courier charges a minimum tariff of ~SGD $45 on small test orders (~SGD $50 goods), creating a 47% shipping overhead.
+*Solution:* Ship domestically inside Guangdong from Xingle (Shantou) to a Singapore forwarder's hub (Dongguan / Guangzhou) for 10–15 RMB (~SGD $2). The forwarder then consolidates and ships to Singapore doorstep:
+- **Buyandship SG (Air):** Dongguan hub &rarr; SG doorstep at ~SGD $7/kg. Total shipping: **~SGD $9.00** (vs. $45 direct).
+- **ezbuy Ship-For-Me (Air):** Guangzhou hub &rarr; SG doorstep at ~SGD $5.50/kg. Total shipping: **~SGD $7.50**.
+- **ezbuy Ship-For-Me (Sea):** Guangzhou hub &rarr; SG doorstep at ~SGD $2.00/kg. Total shipping: **~SGD $5.00** (ideal for batches >5 kg).
 
 ### Landed Cost Example (Per MoYu V11 Unit)
 

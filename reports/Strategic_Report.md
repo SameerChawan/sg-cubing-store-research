@@ -183,6 +183,15 @@ Singapore offers a unique combination of **high purchasing power**, **tech-savvy
 | **Assessment** | Likely defunct or inactive |
 | **Threat Level** | **None** |
 
+#### Strategic Case Study: Cubewerkz × Embassy of Hungary WCA Championship
+Cubewerkz co-organizes official WCA competitions in partnership with the **Embassy of Hungary in Singapore** (honoring Ernő Rubik's Budapest invention). 
+- **Moat:** Secures institutional prestige, subsidized community venues, and an exclusive captive pop-up store where 200–400 youth competitors and parents buy at full Singapore MSRP ($90–$125 SGD).
+- **Asymmetric Challenger Playbook:**
+  1. *Expose Event Markups:* Highlight online savings of 20–30% with next-day local delivery vs event impulse pricing.
+  2. *Grassroots School Infiltration:* Sponsor inter-school cubing leagues (UWCSEA Dover, ACS, Raffles, NUS) with $50–$60 wholesale prize lots.
+  3. *WCA Prize Pool Seeding:* Offer $150 of wholesale inventory to WCA delegates for official podium prize packs to get logo placement and discount card distribution.
+  4. *Free Pro-Tuning & Lube:* Distinguish from dry factory box stock by providing pre-lubed (DNM-37 / Gan Lube 1) tuned setups.
+
 ### 3.2 International Competitors
 
 | Retailer | Shipping to SG | Delivery Time | Pricing | Our Advantage |
@@ -284,6 +293,14 @@ We have identified and verified **XingleToy** as the primary sourcing partner:
 | E-packet/postal | $2-5 | 10-21 days | Small orders |
 
 **Singapore Advantage:** Shantou → Singapore is ~2,500km by sea. Established logistics corridors exist due to large Teochew diaspora business networks. Sea freight LCL at $0.50-1.50/kg is the most cost-effective for regular restocking.
+
+#### 4.4.1 Micro-Batch Freight Optimization (Domestic Forwarding)
+When ordering small test lots directly from XingleToy, direct international couriers (SF Express / DHL) charge a high base minimum (e.g., SGD $45 on an SGD $50 test order).
+**Rerouting Solution:**
+Ship domestically inside Guangdong from Xingle (Shantou) to a Singapore forwarder's hub (Dongguan / Guangzhou) for 10–15 RMB (~SGD $2). The forwarder then consolidates and ships to Singapore:
+- **Buyandship SG (Air):** Dongguan hub &rarr; SG doorstep at ~SGD $7/kg. Total freight: **~SGD $9.00** (78% savings).
+- **ezbuy Ship-For-Me (Air):** Guangzhou hub &rarr; SG doorstep at ~SGD $5.50/kg. Total freight: **~SGD $7.50**.
+- **ezbuy Ship-For-Me (Sea):** Guangzhou hub &rarr; SG doorstep at ~SGD $2.00/kg. Total freight: **~SGD $5.00** (>5 kg batches).
 
 ### 4.5 Landed Cost Analysis (Real Data + Freight)
 
@@ -491,6 +508,13 @@ This is **ideal for a lean e-commerce operation** fulfilling orders from home.
 | Influencer/Seeding | $50-100 | $600-1,200 | $3-5 |
 | WCA Sponsorship | $50-100 | $300-600 | — |
 | **Total** | **$700-1,200** | **$8,100-13,800** | **Blended: $8-12** |
+
+### 7.5 Agile Pre-Incorporation Launch Playbook (Operating Before Formal Entity)
+For scenarios where formal ACRA incorporation or MOM Letter of Consent (LOC) is paused/transitioning due to employment shifts:
+- **Track 1: Zero-Entity C2C Pilot (Carousell SG):** Under IRAS guidelines, casual disposal/selling of personal hobby goods is non-taxable hobby trading. Order 20–30 hot flagships (Tornado V4, RS3M V5, GAN 12 MagLev) via forwarder and sell on Carousell SG + PayNow / MRT meetup to benchmark sales velocity within 7 days.
+- **Track 2: Rapid ACRA + LOC Window:** If wife has not yet started formal employment, lodge the $115 Sole Prop + DP-LOC immediately to secure the 12-month grace period before local hiring quotas take effect.
+- **Track 3: School Network Pre-Orders:** Collect upfront PayNow deposits from parents at school networks (e.g. UWCSEA Dover, local cubing clubs) for group orders. Provide value-added lube and tension setup. Zero capital risk.
+- **Track 4: Organic Audience Seeding:** Build @sgcubingco TikTok/IG and Singapore Cubing Telegram before spending on incorporation.
 
 ---
 
