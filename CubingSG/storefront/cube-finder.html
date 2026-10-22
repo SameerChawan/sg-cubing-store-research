@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cube Finder — CUBINGSG</title>
+<meta name="description" content="Answer four questions and get a personalised speedcube recommendation from CubingSG, Singapore's local speedcube store.">
+<link rel="icon" href="assets/logo-nav.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/core.css">
+<link rel="stylesheet" href="css/catalog.css">
+<link rel="stylesheet" href="css/cubefinder.css">
+<link rel="stylesheet" href="css/parents.css">
+</head>
+<body>
+
+<div class="ticker">
+  <div class="wrap">
+    <div class="ticker__msg">
+      <span>🇸🇬 Local Singapore stock — 24–48h courier dispatch</span>
+      <span>🚚 Free local delivery over $60</span>
+      <span>🔧 Spare parts &amp; setup service in-house</span>
+    </div>
+    <div class="ticker__links"><a href="index.html">← Back to store</a></div>
+  </div>
+</div>
+
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="brand" href="index.html" aria-label="CubingSG home">
+      <img src="assets/logo-nav.png" alt="CubingSG">
+      <span class="brand__tag">SG</span>
+    </a>
+    <div class="header__actions" style="margin-left:auto">
+      <a class="btn btn--ghost btn--sm" href="parents-guide.html">Parent&rsquo;s Guide</a>
+      <a class="icon-btn" href="index.html#product-grid" aria-label="Cart">
+        <svg width="21" height="21" aria-hidden="true"><use href="#u-cart"/></svg>
+        <span class="icon-btn__count" data-cart-count>0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid-lines"></div>
+  <div class="wrap hero__inner">
+    <div style="grid-column:1/-1;max-width:840px">
+      <span class="hero__eyebrow">Cube Finder</span>
+      <h1>Four questions.<br>One <em>correct cube.</em></h1>
+      <p class="hero__sub">
+        No affiliate scoring, no &ldquo;bestseller&rdquo; padding. This matches on the four
+        things that actually change how a cube feels: who it is for, what puzzle,
+        what budget, and what turning feel you like.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="finder" data-cube-finder></div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-head__eyebrow">Reference</div>
+        <h2>Not sure what any of this means?</h2>
+        <p>We wrote the plain-English version of all of it. No jargon, no sales pitch.</p>
+      </div>
+    </div>
+    <div class="trust">
+      <div class="trust__item"><span class="trust__ico">🧲</span><div><div class="trust__t">Magnetic cubes</div><div class="trust__d">Why magnets stop layers flying apart, and whether a beginner needs them.</div></div></div>
+      <div class="trust__item"><span class="trust__ico">🧲</span><div><div class="trust__t">MagLev springs</div><div class="trust__d">Repelling magnets instead of metal springs. Smoother, quieter, more expensive.</div></div></div>
+      <div class="trust__item"><span class="trust__ico">✨</span><div><div class="trust__t">UV coating</div><div class="trust__d">A glossy hard shell over the plastic. Grip, scratch resistance, and how long it actually lasts.</div></div></div>
+      <div class="trust__item"><span class="trust__ico">🧩</span><div><div class="trust__t">Stickerless</div><div class="trust__d">Colour is in the plastic itself. More durable than stickers, slightly heavier.</div></div></div>
+    </div>
+    <div style="text-align:center;margin-top:32px">
+      <a class="btn btn--primary" href="parents-guide.html">Read the Parent&rsquo;s Guide</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__bar">
+      <span>© 2026 CUBINGSG &nbsp;·&nbsp; UEN <strong>53534289J</strong> &nbsp;·&nbsp; All prices in SGD, GST included</span>
+      <div class="footer__legal"><a href="index.html">Store</a><a href="parents-guide.html">Parent&rsquo;s Guide</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script src="js/cubefinder.js"></script>
+</body>
+</html>

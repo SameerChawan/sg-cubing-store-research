@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CUBINGSG — Speed Cubes &amp; Puzzles, Delivered Next-Day in Singapore</title>
+<meta name="description" content="Singapore's speedcube store. Magnetic 3x3, 2x2, 4x4, Pyraminx, Megaminx, Skewb, Square-1 and shape mods, stocked locally in Singapore with next-day courier dispatch.">
+<meta property="og:title" content="CUBINGSG — Singapore's Speedcube Store">
+<meta property="og:description" content="Locally stocked speedcubes, next-day Singapore courier dispatch. Find your cube in 4 questions.">
+<meta property="og:image" content="assets/og-image.png">
+<link rel="icon" href="assets/logo-nav.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/core.css">
+<link rel="stylesheet" href="css/catalog.css">
+<link rel="stylesheet" href="css/cubefinder.css">
+<link rel="stylesheet" href="css/parents.css">
+</head>
+<body>
+
+<!-- ======================================================= TICKER -->
+<div class="ticker">
+  <div class="wrap">
+    <div class="ticker__msg">
+      <span>🇸🇬 Local Singapore stock — 24–48h courier dispatch</span>
+      <span>🚚 Free local delivery over $60</span>
+      <span>🔧 Spare parts &amp; setup service in-house</span>
+    </div>
+    <div class="ticker__links">
+      <a href="#">Track order</a>
+      <a href="#">SG GST-inclusive pricing</a>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= HEADER -->
+<header class="header">
+  <div class="wrap header__inner">
+
+    <a class="brand" href="index.html" aria-label="CubingSG home">
+      <img src="assets/logo-nav.png" alt="CubingSG">
+      <span class="brand__tag">SG</span>
+    </a>
+
+    <div class="search">
+      <form class="search__form" role="search" data-search-form>
+        <svg width="18" height="18" style="color:var(--tx-3);flex-shrink:0" aria-hidden="true"><use href="#u-search"/></svg>
+        <input type="search" placeholder="Search 3x3, GAN, magnetic, under $15…" aria-label="Search products" data-search-input autocomplete="off">
+        <button class="search__go" type="submit">Search</button>
+      </form>
+      <div class="search__panel" data-search-panel role="listbox" aria-label="Search suggestions"></div>
+    </div>
+
+    <div class="header__actions">
+      <a class="icon-btn" href="#" aria-label="Account"><svg width="21" height="21" aria-hidden="true"><use href="#u-user"/></svg></a>
+      <a class="icon-btn" href="#" aria-label="Wishlist"><svg width="21" height="21" aria-hidden="true"><use href="#u-heart"/></svg></a>
+      <a class="icon-btn" href="#" aria-label="Cart">
+        <svg width="21" height="21" aria-hidden="true"><use href="#u-cart"/></svg>
+        <span class="icon-btn__count" data-cart-count>0</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- =================================================== NAV + MEGA MENU -->
+  <nav class="nav" aria-label="Primary">
+    <div class="wrap nav__inner">
+      <div class="nav__item">
+        <a class="nav__link" href="#" data-mega-trigger="puzzles" aria-expanded="false" aria-haspopup="true">
+          Cubes &amp; Puzzles <svg class="caret" width="13" height="13" aria-hidden="true"><use href="#u-chev"/></svg>
+        </a>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="cube-finder.html">Cube Finder</a></div>
+      <div class="nav__item"><a class="nav__link" href="#product-grid">New Arrivals <span class="badge-new">NEW</span></a></div>
+      <div class="nav__item"><a class="nav__link" href="#product-grid">Best Sellers</a></div>
+      <div class="nav__item"><a class="nav__link" href="#brands">Brands</a></div>
+      <div class="nav__item"><a class="nav__link" href="#product-grid">Lube &amp; Setup</a></div>
+      <div class="nav__item"><a class="nav__link" href="#product-grid">Accessories &amp; Timers</a></div>
+      <div class="nav__item"><a class="nav__link" href="parents-guide.html">Parent&rsquo;s Guide</a></div>
+      <div class="nav__item"><a class="nav__link nav__link--sale" href="#product-grid">Sale</a></div>
+    </div>
+
+    <!-- ============ DAILYPUZZLES-STYLE HORIZONTAL MEGA MENU ============ -->
+    <div class="mega" data-mega="puzzles" role="region" aria-label="Cube category menu">
+      <div class="mega__inner">
+        <div class="wrap">
+          <div class="mega__head">
+            <span class="mega__title">Shop by Puzzle Type</span>
+            <span class="mega__hint">WCA event cubes and everything in between · SGD pricing, GST included</span>
+          </div>
+
+          <div class="mega__layout">
+
+            <!-- 3x3 event tile grid -->
+            <div class="tiles">
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-all"/></svg></span>
+                <span class="tile__pill">All Puzzles</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-2x2"/></svg></span>
+                <span class="tile__pill">2x2</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-3x3"/></svg></span>
+                <span class="tile__pill">3x3</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-4x4"/></svg></span>
+                <span class="tile__pill">4x4</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-pyraminx"/></svg></span>
+                <span class="tile__pill">Pyraminx</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-skewb"/></svg></span>
+                <span class="tile__pill">Skewb</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-megaminx"/></svg></span>
+                <span class="tile__pill">Megaminx</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-square1"/></svg></span>
+                <span class="tile__pill">Square-1</span>
+              </a>
+              <a class="tile" href="#product-grid">
+                <span class="tile__icon"><svg aria-hidden="true"><use href="#i-clock"/></svg></span>
+                <span class="tile__pill">Clock</span>
+              </a>
+            </div>
+
+            <!-- 2x2 feature cards -->
+            <div class="feats">
+              <a class="feat" href="#product-grid">
+                <span class="feat__label">All Products</span>
+                <span class="feat__art"><svg aria-hidden="true"><use href="#f-all"/></svg></span>
+                <span class="feat__go">GO <span aria-hidden="true">▶▶▶</span></span>
+                <svg class="feat__wm" aria-hidden="true"><use href="#wm-cube"/></svg>
+              </a>
+              <a class="feat" href="#product-grid">
+                <span class="feat__label">Best Sellers</span>
+                <span class="feat__art"><svg aria-hidden="true"><use href="#f-best"/></svg></span>
+                <span class="feat__go">GO <span aria-hidden="true">▶▶▶</span></span>
+                <svg class="feat__wm" aria-hidden="true"><use href="#wm-cube"/></svg>
+              </a>
+              <a class="feat" href="#product-grid">
+                <span class="feat__label">New!</span>
+                <span class="feat__art"><svg aria-hidden="true"><use href="#f-new"/></svg></span>
+                <span class="feat__go">GO <span aria-hidden="true">▶▶▶</span></span>
+                <svg class="feat__wm" aria-hidden="true"><use href="#wm-cube"/></svg>
+              </a>
+              <a class="feat" href="#product-grid">
+                <span class="feat__label">Accessories &amp; Lifestyle</span>
+                <span class="feat__art"><svg aria-hidden="true"><use href="#f-acc"/></svg></span>
+                <span class="feat__go">GO <span aria-hidden="true">▶▶▶</span></span>
+                <svg class="feat__wm" aria-hidden="true"><use href="#wm-cube"/></svg>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ======================================================= HERO -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__grid-lines"></div>
+  <div class="wrap hero__inner">
+    <div>
+      <span class="hero__eyebrow">🇸🇬 Singapore&rsquo;s speedcube store</span>
+      <h1>Every cube worth<br>holding. <em>Stuck in SG.</em></h1>
+      <p class="hero__sub">
+        Locally stocked speedcubes, WCA event puzzles and shape mods — dispatched
+        by courier within 24 hours. Not a marketplace listing three weeks out of a
+        warehouse overseas. A real Singapore shop with real local stock.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#finder">Find my cube <svg width="16" height="16" aria-hidden="true"><use href="#u-arrow"/></svg></a>
+        <a class="btn btn--ghost" href="#product-grid">Browse all cubes</a>
+      </div>
+      <div class="hero__stats">
+        <div class="stat">
+          <div class="stat__num">24<span>–48h</span></div>
+          <div class="stat__lbl">Local courier dispatch</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num">60<span>+</span></div>
+          <div class="stat__lbl">Cubes in local stock</div>
+        </div>
+        <div class="stat">
+          <div class="stat__num">1<span>x1</span></div>
+          <div class="stat__lbl">Free setup &amp; lubing service</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__art">
+      <div class="hero__orbit"></div>
+      <div class="hero__cube"><img src="assets/logo-full.png" alt="CubingSG speedcube"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= PRODUCT GRID -->
+<section class="section" id="product-grid">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-head__eyebrow">In stock in Singapore</div>
+        <h2>The core shelf</h2>
+        <p>The cubes we actually keep on the shelf. Every price below is what you pay in SGD, GST included.</p>
+      </div>
+      <a class="sec-head__link" href="cube-finder.html">Not sure? Use the Cube Finder <svg width="15" height="15" aria-hidden="true"><use href="#u-arrow"/></svg></a>
+    </div>
+    <div class="prod-grid" data-product-grid data-limit="12"></div>
+  </div>
+</section>
+
+<!-- ======================================================= CUBE FINDER -->
+<section class="section section--tight" id="finder" style="background:var(--bg-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="finder" data-cube-finder></div>
+  </div>
+</section>
+
+<!-- ======================================================= BRANDS -->
+<section class="section section--tight" id="brands">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-head__eyebrow">Authorised stock</div>
+        <h2>Brands we carry</h2>
+        <p>We buy direct from the manufacturers, so the warranty and the supply are actually real.</p>
+      </div>
+    </div>
+    <div class="brand-strip">
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">GAN</span><span class="brand-card__lbl">MagLev &amp; MagDrive</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">MoYu</span><span class="brand-card__lbl">WeiLong &amp; RS series</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">QiYi</span><span class="brand-card__lbl">Warrior &amp; M series</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">YuQi Hao</span><span class="brand-card__lbl">Value magnetic</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">DaYan</span><span class="brand-card__lbl">GuHong &amp; Zhanchi</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">YJ</span><span class="brand-card__lbl">MGC &amp; YGM</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">Sengso</span><span class="brand-card__lbl">Big cubes</span></a>
+      <a class="brand-card" href="#product-grid"><span class="brand-card__logo">X-Man</span><span class="brand-card__lbl">Bell &amp; Shadow</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= PARENT'S GUIDE -->
+<section class="section section--tight">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-head__eyebrow">For parents</div>
+        <h2>New to cubing? Start here.</h2>
+        <p>Everything you need to understand what your child is doing, which cube to buy, and whether any of it is actually a problem.</p>
+      </div>
+      <a class="sec-head__link" href="parents-guide.html">Read the Parent&rsquo;s Guide <svg width="15" height="15" aria-hidden="true"><use href="#u-arrow"/></svg></a>
+    </div>
+    <div class="guide-grid">
+      <a class="guide-card" href="parents-guide.html#s101">
+        <span class="guide-card__ico">🧠</span>
+        <span class="guide-card__t">What is your child actually doing?</span>
+        <span class="guide-card__d">Speedcubing explained without jargon, plus what the research says about spatial reasoning and screen habits.</span>
+        <span class="guide-card__meta">5 min read <span class="dot"></span> Basics</span>
+      </a>
+      <a class="guide-card" href="parents-guide.html#tech">
+        <span class="guide-card__ico">🧲</span>
+        <span class="guide-card__t">Magnetic, MagLev, UV — decoded</span>
+        <span class="guide-card__d">The four terms on every product page, explained in plain English so you know what you are paying extra for.</span>
+        <span class="guide-card__meta">6 min read <span class="dot"></span> Buying</span>
+      </a>
+      <a class="guide-card" href="parents-guide.html#first-cube">
+        <span class="guide-card__ico">🛒</span>
+        <span class="guide-card__t">Which cube should you buy first?</span>
+        <span class="guide-card__d">A straight answer for under $25, and the three things not worth buying yet.</span>
+        <span class="guide-card__meta">4 min read <span class="dot"></span> Buying</span>
+      </a>
+      <a class="guide-card" href="parents-guide.html#maintenance">
+        <span class="guide-card__ico">🧴</span>
+        <span class="guide-card__t">Lubricant &amp; maintenance</span>
+        <span class="guide-card__d">Is it safe? Is it necessary? How a two-minute routine doubles the life of the plastic.</span>
+        <span class="guide-card__meta">5 min read <span class="dot"></span> Care</span>
+      </a>
+      <a class="guide-card" href="parents-guide.html#competitions">
+        <span class="guide-card__ico">🏆</span>
+        <span class="guide-card__t">Attending a first WCA competition</span>
+        <span class="guide-card__d">How Singapore competitions run, how to register, and what a competition day actually looks like.</span>
+        <span class="guide-card__meta">7 min read <span class="dot"></span> Community</span>
+      </a>
+      <a class="guide-card" href="parents-guide.html#glossary">
+        <span class="guide-card__ico">📖</span>
+        <span class="guide-card__t">The speedcuber glossary</span>
+        <span class="guide-card__d">Ao5, PB, CFOP, TPS, pop, lockup — every word you will hear at the dinner table, defined.</span>
+        <span class="guide-card__meta">4 min read <span class="dot"></span> Reference</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= TRUST -->
+<section class="section section--tight" style="background:var(--bg-2);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="trust">
+      <div class="trust__item"><span class="trust__ico">🇸🇬</span><div><div class="trust__t">Genuinely local stock</div><div class="trust__d">Held in Singapore. Not drop-shipped from a Shenzhen warehouse with a three-week wait.</div></div></div>
+      <div class="trust__item"><span class="trust__ico">🔧</span><div><div class="trust__t">Free setup &amp; lubing</div><div class="trust__d">Send it in, we tension, lube and spring-balance it before it ships. No charge.</div></div></div>
+      <div class="trust__item"><span class="trust__ico">🔩</span><div><div class="trust__t">Spare parts stocked</div><div class="trust__d">Centre caps, core screws, springs and magnets kept on the shelf so a broken piece is not a dead cube.</div></div></div>
+      <div class="trust__item"><span class="trust__ico">↩️</span><div><div class="trust__t">7-day easy exchange</div><div class="trust__d">Changed your mind? Send it back within a week. Cubing is not for everyone.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+
+      <div class="footer__brand">
+        <img src="assets/logo-nav.png" alt="CubingSG">
+        <p class="footer__about">
+          A speedcube shop built in Singapore, for Singaporean cubers.
+          ACRA registered, prices in SGD, and someone here who can actually
+          answer a question about spring tension.
+        </p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="TikTok">🎵</a>
+          <a href="#" aria-label="YouTube">▶️</a>
+          <a href="#" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#product-grid">3x3 Speed Cubes</a></li>
+          <li><a href="#product-grid">2x2 Pocket Cubes</a></li>
+          <li><a href="#product-grid">4x4 &amp; Big Cubes</a></li>
+          <li><a href="#product-grid">WCA Event Cubes</a></li>
+          <li><a href="#product-grid">Shape Mods</a></li>
+          <li><a href="#product-grid">Lubricant &amp; Tools</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="cube-finder.html">Cube Finder</a></li>
+          <li><a href="parents-guide.html">Parent&rsquo;s Guide</a></li>
+          <li><a href="parents-guide.html#s101">Speedcubing 101</a></li>
+          <li><a href="parents-guide.html#competitions">Local Competitions</a></li>
+          <li><a href="parents-guide.html#glossary">Glossary</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h4>Newsletter</h4>
+        <p class="footer__about" style="margin-bottom:12px">Restocks, new drops and the occasional genuinely good deal. No filler.</p>
+        <form class="newsletter" onsubmit="event.preventDefault();this.querySelector('button').textContent='Subscribed ✓';">
+          <input type="email" placeholder="you@example.com" aria-label="Email address" required>
+          <button type="submit">Join</button>
+        </form>
+        <ul>
+          <li><a href="#">Shipping &amp; delivery</a></li>
+          <li><a href="#">Returns &amp; exchanges</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer__bar">
+      <span>© 2026 CUBINGSG &nbsp;·&nbsp; UEN <strong>53534289J</strong> &nbsp;·&nbsp; All prices in SGD, GST included</span>
+      <div class="footer__legal">
+        <a href="#">Privacy</a><a href="#">Terms</a><a href="#">PDPA</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script src="js/cubefinder.js"></script>
+</body>
+</html>
